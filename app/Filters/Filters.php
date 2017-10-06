@@ -1,23 +1,24 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: mjepkoech
+ * Date: 9/10/17
+ * Time: 12:49 PM
+ */
 
 namespace App\Filters;
+
 
 use Illuminate\Http\Request;
 
 abstract class Filters
 {
-    /**
-     * @var Request
-     */
-    protected $request, $builder;
-
-    protected $filters = [];
-
+    protected $request,  $builder;
+    protected $filters=[];
     /**
      * ThreadFilters constructor.
-     * @param Request $request
      */
-    function __construct(Request $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
@@ -26,12 +27,11 @@ abstract class Filters
     {
         $this->builder = $builder;
 
-        foreach ($this->getFilters() as $filter => $value){
-            if (method_exists( $this, $filter )){
+        foreach($this->getFilters() as $filter=>$value) {
+            if (method_exists($this, $filter)) {
                 $this->$filter($value);
             }
         }
-
         return $this->builder;
     }
 

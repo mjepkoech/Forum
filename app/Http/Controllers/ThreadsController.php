@@ -2,38 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
-use App\Filters\ThreadFilters;
 use App\Thread;
-
-use App\User;
-use Carbon\Carbon;
+use App\Channel;
 use Illuminate\Http\Request;
-
+use App\Filters\ThreadFilters;
 
 class ThreadsController extends Controller
 {
-    //ThreadsController constructor
+    /**
+     * ThreadsController constructor.
+     */
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index','show']);
     }
 
     /**
      * Display a listing of the resource.
+     * @param  Channel $channel
      *
-     * @param Channel $channel
-     * @param ThreadFilters|ThreadFilters $filters
      * @return \Illuminate\Http\Response
      */
     public function index(Channel $channel, ThreadFilters $filters)
     {
-        $threads = $this->getThreads( $channel, $filters );
-
-        if (\request()->wantsJson()){
-            return $threads;
+        $threads = $this->getThreads($channel, $filters);
+        if (request()->wantsJson()) {
+           return $threads;
         }
-
         return view('threads.index', compact('threads'));
     }
 
@@ -53,41 +48,37 @@ class ThreadsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
-            'channel_id' => 'required|exists:channels,id'
-        ]);
+            'title'=>'required',
+            'body'=>'required',
+            'channel_id'=>'required|exists:channels,id'
+            ]);
 
-        $thread = Thread::create([
-            'user_id' => auth()->id(),
-            'channel_id' => request('channel_id'),
-            'title' => request('title'),
-            'body' => request('body'),
-        ]);
-
+        $thread=Thread::create([
+            'user_id'=>auth()->id(),
+            'channel_id'=>request('channel_id'),
+            'title'=>request('title'),
+            'body'=>request('body')
+    ]);
         return redirect($thread->path())
-            ->with('flash', 'Your thread has been published');
-
-    }
+            ->with('flash', 'Your thread has been published!');    }
 
     /**
      * Display the specified resource.
      *
      * @param $channel
-     * @param  \App\Thread $thread
+     * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
     public function show($channel, Thread $thread)
     {
-        if (auth()->check()) {
-
-            auth()->user()->read($thread);
-        }
-
-        return view('threads.show', compact('thread'));
+        return view('threads.show', [
+            'thread'=>$thread,
+        'replies'=>$thread->replies()->paginate(10)
+    ]);
     }
 
     /**
@@ -114,18 +105,18 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete the given thread.
      *
-     * @param  \App\Thread  $thread
-     * @return \Illuminate\Http\Response
+     * @param        $channel
+     * @param Thread $thread
+     * @return mixed
      */
     public function destroy($channel, Thread $thread)
     {
         $this->authorize('update', $thread);
-
         $thread->delete();
 
-        if (request()->wantsJson()){
+        if (request()->wantsJson()) {
             return response([], 204);
         }
 
@@ -139,12 +130,11 @@ class ThreadsController extends Controller
      */
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
-        $threads = Thread::latest()->filter( $filters );
-
+        $threads = Thread::latest()->filter($filters);
         if ($channel->exists) {
-            $threads->where( 'channel_id', $channel->id );
+            $threads->where('channel_id', $channel->id);
         }
-
-        return $threads->get();
+        $threads = $threads->get();
+        return $threads;
     }
 }

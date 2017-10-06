@@ -9,11 +9,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class ReplyTest extends TestCase
 {
     use DatabaseMigrations;
-
     /** @test */
-    function it_has_an_owner()
+    public function it_has_an_owner()
     {
-        $reply = factory('App\Reply')->create();
+        $reply=factory('App\Reply')->create();
         $this->assertInstanceOf('App\User', $reply->owner);
     }
 }
