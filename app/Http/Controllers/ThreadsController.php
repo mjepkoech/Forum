@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
 {
-    //ThreadsController constructor
+
+    /***
+     * Create a new ThreadsController instance.
+     */
     public function __construct()
     {
         $this->middleware('auth')->except(['index', 'show']);
@@ -56,10 +59,11 @@ class ThreadsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'body' => 'required',
+            'title' => 'required|spamfree',
+            'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id'
         ]);
+
 
         $thread = Thread::create([
             'user_id' => auth()->id(),
@@ -145,6 +149,5 @@ class ThreadsController extends Controller
             $threads->where( 'channel_id', $channel->id );
         }
 
-        return $threads->get();
-    }
+        return $threads->paginate(25);    }
 }
