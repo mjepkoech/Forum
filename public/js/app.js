@@ -62485,8 +62485,8 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUploads_vue__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUploads_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ImageUploads_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue__);
 //
 //
 //
@@ -62506,7 +62506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user'],
-    components: { ImageUpload: __WEBPACK_IMPORTED_MODULE_0__ImageUploads_vue___default.a },
+    components: { ImageUpload: __WEBPACK_IMPORTED_MODULE_0__ImageUpload_vue___default.a },
     data: function data() {
         return {
             avatar: this.user.avatar_path
@@ -62573,9 +62573,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-05f952ee", Component.options)
+    hotAPI.createRecord("data-v-319f68d5", Component.options)
   } else {
-    hotAPI.reload("data-v-05f952ee", Component.options)
+    hotAPI.reload("data-v-319f68d5", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -62632,7 +62632,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-05f952ee", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-319f68d5", module.exports)
   }
 }
 
