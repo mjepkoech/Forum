@@ -87,6 +87,15 @@ class Thread extends Model
         event(new ThreadReceivedNewReply($reply));
         return $reply;
     }
+
+    /**
+     * Lock the thread.
+     */
+    public function lock()
+     {
+         $this->update(['locked' => true]);
+     }
+
     /**
      * Apply all relevant thread filters.
      *
@@ -173,5 +182,15 @@ class Thread extends Model
             $slug = "{$slug}-{$this->id}";
         }
         $this->attributes['slug'] = $slug;
+    }
+
+    /**
+     * Mark the given reply as the best answer.
+     *
+     * @param Reply $reply
+     */
+    public function markBestReply(Reply $reply)
+    {
+        $this->update(['best_reply_id' => $reply->id]);
     }
 }

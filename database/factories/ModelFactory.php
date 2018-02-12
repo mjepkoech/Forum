@@ -19,6 +19,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->state(App\User::class, 'administrator', function () {
+    return [
+        'name' => 'JohnDoe'
+    ];
+});
+
+
 $factory->define(App\Thread::class, function ($faker) {
     $title = $faker->sentence;
     return [
@@ -31,7 +39,8 @@ $factory->define(App\Thread::class, function ($faker) {
         'title' => $title,
         'body'  => $faker->paragraph,
         'visits' => 0,
-        'slug' => str_slug($title)
+        'slug' => str_slug($title),
+        'locked' => false
     ];
 });
 $factory->define(App\Channel::class, function ($faker) {
