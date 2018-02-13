@@ -23,31 +23,31 @@ Vue.prototype.authorize = function (handler) {
     let authorizations = require('./authorizations');
 
     Vue.prototype.authorize = function (...params) {
-            if (! window.App.signedIn) return false;
+        if (! window.App.signedIn) return false;
 
-                if (typeof params[0] === 'string') {
-                    return authorizations[params[0]](params[1]);
-                }
+        if (typeof params[0] === 'string') {
+            return authorizations[params[0]](params[1]);
+        }
 
-                return params[0](window.App.user);};
+        return params[0](window.App.user);};
 
     Vue.prototype.signedIn = window.App.signedIn;
 
     /**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
+     * We'll load the axios HTTP library which allows us to easily issue requests
+     * to our Laravel back-end. This library automatically handles sending the
+     * CSRF token as a header based on the value of the "XSRF" token cookie.
+     */
 
-window.axios = require('axios');
+    window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.App.csrfToken,
-    'X-Requested-With': 'XMLHttpRequest'
-};
+    window.axios.defaults.headers.common = {
+        'X-CSRF-TOKEN': window.App.csrfToken,
+        'X-Requested-With': 'XMLHttpRequest'
+    };
 
-window.events = new Vue();
+    window.events = new Vue();
 
-window.flash = function (message, level = 'success') {
-    window.events.$emit('flash', { message, level });
-};
+    window.flash = function (message, level = 'success') {
+        window.events.$emit('flash', { message, level });
+    };
